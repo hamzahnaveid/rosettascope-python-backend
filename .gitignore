@@ -1,0 +1,11 @@
+app/__pycache__/__init__.cpython-313.pyc
+app/__pycache__/main.cpython-313.pyc
+app/core/__pycache__/__init__.cpython-313.pyc
+app/core/__pycache__/config.cpython-313.pyc
+app/routers/__pycache__/__init__.cpython-313.pyc
+app/routers/__pycache__/translation_router.cpython-313.pyc
+app/schemas/__pycache__/__init__.cpython-313.pyc
+app/schemas/__pycache__/translation_schema.cpython-313.pyc
+app/services/__pycache__/__init__.cpython-313.pyc
+app/services/__pycache__/googletrans_service.cpython-313.pyc
+app/services/__pycache__/speech_sdk_service.cpython-313.pyc
