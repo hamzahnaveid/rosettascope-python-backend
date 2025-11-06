@@ -2,13 +2,23 @@ from app.core.config import settings
 import azure.cognitiveservices.speech as speechsdk
 import base64
 
-#language hard-coded to Spanish for test/demo purposes
-def synthesize_speech(text: str, lang_code: str = "es-ES"):
+language_codes = {
+    'en': 'en-IE',
+    'zh-cn': 'zh-CN-GUANGXI',
+    'de': 'de-DE',
+    'fr': 'fr-FR',
+    'ko': 'ko-KR',
+    'ja': 'ja-JP',
+    'ru': 'ru-RU',
+    'es': 'es-ES'
+}
+
+def synthesize_speech(text: str, lang_code: str):
     speech_config = speechsdk.SpeechConfig(
         subscription=settings.MICROSOFT_SPEECH_KEY,
         endpoint=settings.MICROSOFT_SPEECH_ENDPOINT
     )
-    speech_config.speech_synthesis_language = lang_code
+    speech_config.speech_synthesis_language = language_codes[lang_code]
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
     result = speech_synthesizer.speak_text_async(text).get()
