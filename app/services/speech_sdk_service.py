@@ -13,14 +13,15 @@ language_codes = {
     'es': 'es-ES'
 }
 
-def synthesize_speech(text: str, lang_code: str):
-    speech_config = speechsdk.SpeechConfig(
+speech_config = speechsdk.SpeechConfig(
         subscription=settings.MICROSOFT_SPEECH_KEY,
         endpoint=settings.MICROSOFT_SPEECH_ENDPOINT
     )
-    speech_config.speech_synthesis_language = language_codes[lang_code]
-    speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
+speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+
+def synthesize_speech(text: str, lang_code: str):
+    speech_config.speech_synthesis_language = language_codes[lang_code]
     result = speech_synthesizer.speak_text_async(text).get()
     audio_data = result.audio_data
     return base64.b64encode(audio_data).decode("utf-8")
