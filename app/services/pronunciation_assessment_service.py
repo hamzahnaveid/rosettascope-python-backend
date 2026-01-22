@@ -16,11 +16,12 @@ language_codes = {
 
 speech_config = speechsdk.SpeechConfig(
         subscription=settings.MICROSOFT_SPEECH_KEY,
-        endpoint=settings.MICROSOFT_SPEECH_ENDPOINT
+        region="westeurope"
     )
-audio_config = speechsdk.audio.AudioConfig(filename="app/resources/recording.wav")
 
 def pronunciation_assessment(refText: str, targetLanguage: str):
+    speech_config.speech_recognition_language = language_codes[targetLanguage]
+
     enable_miscue, enable_prosody = True, False
     config_json = {
         "GradingSystem": "HundredMark",
@@ -35,16 +36,21 @@ def pronunciation_assessment(refText: str, targetLanguage: str):
     pronunciation_config = speechsdk.PronunciationAssessmentConfig(json_string=json.dumps(config_json))
     pronunciation_config.reference_text = refText
 
-    language = language_codes[targetLanguage]
+    audio_config = speechsdk.audio.AudioConfig(filename="app/resources/output.wav")
     
     speech_recognizer = speechsdk.SpeechRecognizer(
         speech_config=speech_config, 
         audio_config=audio_config, 
-        language=language
     )
 
     pronunciation_config.apply_to(speech_recognizer)
 
     result = speech_recognizer.recognize_once_async().get()
+    if result.reason == speechsdk.ResultReason.Canceled:
+        cancellation = speechsdk.CancellationDetails(result)
+        print("Cancellation reason:", cancellation.reason)
+        print("Error details:", cancellation.error_details)
+        return None
+
     return result.properties.get(speechsdk.PropertyId.SpeechServiceResponse_JsonResult)
     

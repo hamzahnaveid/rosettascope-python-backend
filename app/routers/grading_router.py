@@ -7,7 +7,7 @@ router = APIRouter()
 
 @router.post("/grade", response_model=GradingResponse)
 async def grade_speech(req: GradingRequest):
-    base64_to_wav(req.recordingAudioBytes, "app/resources/recording.wav")
+    base64_to_wav(req.recordingAudioBytes)
 
     result = pronunciation_assessment(req.refText, req.targetLanguage)
     return {
