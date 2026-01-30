@@ -3,24 +3,13 @@ from app.core.config import settings
 import azure.cognitiveservices.speech as speechsdk
 import base64
 
-language_codes = {
-    'en': 'en-US',
-    'zh-cn': 'zh-CN-GUANGXI',
-    'de': 'de-DE',
-    'fr': 'fr-FR',
-    'ko': 'ko-KR',
-    'ja': 'ja-JP',
-    'ru': 'ru-RU',
-    'es': 'es-ES'
-}
-
 speech_config = speechsdk.SpeechConfig(
         subscription=settings.MICROSOFT_SPEECH_KEY,
         region="westeurope"
     )
 
 def pronunciation_assessment(refText: str, targetLanguage: str):
-    speech_config.speech_recognition_language = language_codes[targetLanguage]
+    speech_config.speech_recognition_language = targetLanguage
 
     enable_miscue, enable_prosody = True, False
     config_json = {
