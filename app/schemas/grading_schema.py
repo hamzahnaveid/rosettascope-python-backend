@@ -7,3 +7,4 @@ class GradingRequest(BaseModel):
 
 class GradingResponse(BaseModel):
     result: str
+    feedback: str

@@ -14,8 +14,11 @@ async def translate_and_speak(req: TranslationRequest):
     ollama_response = generate_phrase(translated_word, req.targetLanguage)
     generated_phrase = ollama_response.get("response")
     
+    original_text = await translate_word(generated_phrase, "en-US")
+
     pronunciation_audio_base64 = synthesize_speech(generated_phrase, req.targetLanguage)
     return {
         "translated_word": generated_phrase,
+        "original_text": original_text,
         "pronunciation_audio_base64": pronunciation_audio_base64
         }

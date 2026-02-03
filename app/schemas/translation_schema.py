@@ -6,4 +6,5 @@ class TranslationRequest(BaseModel):
 
 class TranslationResponse(BaseModel):
     translated_word: str
+    original_text: str
     pronunciation_audio_base64: str
