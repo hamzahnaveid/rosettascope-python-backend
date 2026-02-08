@@ -9,3 +9,5 @@ app/schemas/__pycache__/translation_schema.cpython-313.pyc
 app/services/__pycache__/__init__.cpython-313.pyc
 app/services/__pycache__/googletrans_service.cpython-313.pyc
 app/services/__pycache__/speech_sdk_service.cpython-313.pyc
+*.mp3
+*.wav
