@@ -3,6 +3,7 @@ from pydantic import BaseModel
 class TranslationRequest(BaseModel):
     word: str
     targetLanguage: str
+    confidenceMastered: float
 
 class TranslationResponse(BaseModel):
     translation: str
