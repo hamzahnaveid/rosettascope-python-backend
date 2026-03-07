@@ -3,7 +3,20 @@ import ollama
 def generate_phrase(translated_word: str, target_language):
     response = ollama.chat(model="llama3.1:8b", messages=[{
         "role": "user",
-        "content": f"only generate a simple, very short phrase using this word: {translated_word}. return your response in the target language-code: {target_language}. do not generate any extra lines whatsoever"
+        "content": f"""
+Generate a SHORT PHRASE for a language learning app.
+
+Rules:
+- The phrase MUST include this word: {translated_word}
+- 2–4 words only
+- It must NOT be a full sentence
+- Do NOT include a subject + verb structure
+- Do NOT use punctuation
+- Output ONLY the phrase
+- Language code: {target_language}
+
+Return only the phrase text.
+"""
     }])
     
     return {
@@ -13,7 +26,19 @@ def generate_phrase(translated_word: str, target_language):
 def generate_sentence(translated_word: str, target_language):
     response = ollama.chat(model="llama3.1:8b", messages=[{
         "role": "user",
-        "content": f"only generate a short sentence using this word: {translated_word}. return your response in the target language-code: {target_language}. do not generate any extra lines whatsoever"
+        "content": f"""
+Generate a SHORT SENTENCE for a language learning app.
+
+Rules:
+- The sentence MUST include this word: {translated_word}
+- 5–12 words
+- Must be a complete sentence with a verb
+- End with proper punctuation
+- Output ONLY the sentence
+- Language code: {target_language}
+
+Return only the sentence text.
+"""
     }])
     
     return {
@@ -23,7 +48,28 @@ def generate_sentence(translated_word: str, target_language):
 def generate_feedback(json_result: str):
     response = ollama.chat(model="llama3.1:8b", messages=[{
         "role": "user",
-        "content": f"generate targeted feedback for a user of a language learning app using the following json result for the user's attempt at pronunciation of a word or phrase. the feedback should be short and to the point. do not include a response to this prompt in your response or reference any particular technical details such as offsets, your full response will be displayed to the user in the app: {json_result}"
+        "content": f"""
+You generate pronunciation feedback for a language learning app.
+
+Strict rules:
+- Output ONLY the feedback text shown to the user.
+- Do NOT mention JSON, prompts, analysis, scores, offsets, or technical details.
+- Do NOT explain what you are doing.
+- No headings, labels, bullet points, or filler text.
+- Maximum 2–3 sentences.
+
+Feedback guidelines:
+- Focus on the most noticeable pronunciation issues.
+- If word-level scores exist, mention the specific word(s) that need improvement.
+- If syllable-level scores exist, give targeted advice about the problematic syllable sounds.
+- Prioritize the lowest scoring words or syllables.
+- If pronunciation is mostly correct, briefly acknowledge it and suggest a small improvement.
+
+User pronunciation analysis:
+{json_result}
+
+Return ONLY the feedback text.
+"""
     }])
     
     return response["message"]["content"]
