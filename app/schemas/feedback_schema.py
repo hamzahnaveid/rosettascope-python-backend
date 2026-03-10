@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class FeedbackRequest(BaseModel):
-    json: str
+    feedbackJsonArray: str
 
 
 class FeedbackResponse(BaseModel):

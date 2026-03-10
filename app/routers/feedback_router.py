@@ -4,9 +4,9 @@ from app.schemas.feedback_schema import FeedbackRequest, FeedbackResponse
 
 router = APIRouter()
 
-router.post("/feedback", response_model=FeedbackResponse)
+@router.post("/feedback", response_model=FeedbackResponse)
 async def get_feedback(req: FeedbackRequest):
-    feedback = generate_feedback_aggregate(req.json)
+    feedback = generate_feedback_aggregate(req.feedbackJsonArray)
     return {
         "feedback": feedback
     }
