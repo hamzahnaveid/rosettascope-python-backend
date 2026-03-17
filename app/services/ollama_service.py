@@ -163,3 +163,42 @@ Return ONLY the feedback text.
     
     return response["message"]["content"]
 
+def generate_challenge_hints(words: list[str]):
+    response = ollama.chat(model="llama3.1:8b", messages=[{
+        "role": "user",
+            "content": f"""
+You generate scavenger hunt hints for a mobile app.
+
+The player must find real-world objects using their camera.
+You are given 5 target words. Each word is the name of a physical object.
+
+Your task:
+Create one hint per word that helps the user find the object
+by describing how it looks, where it is usually found, or how it is used.
+
+Rules:
+- Exactly 5 hints (one per word)
+- Do NOT include the word itself or obvious synonyms
+- Make hints visual and environment-based (what it looks like, where it is)
+- Keep each hint under 18 words
+- Make hints moderately challenging (not too obvious, not too vague)
+
+Output format (STRICT):
+- Use bullet points
+- Each line must start with "- "
+- Exactly 5 lines
+- No numbering
+- No extra text before or after the list
+- No blank lines
+
+Example:
+- A flat surface where people eat or work, often surrounded by chairs
+- Keeps your drinks cold and is usually found in the kitchen
+- Something you open to enter a room
+
+Words:
+{words}
+"""
+    }])
+    
+    return response["message"]["content"]
