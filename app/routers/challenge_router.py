@@ -2,6 +2,8 @@ from typing import Annotated
 from fastapi import APIRouter, Query
 from app.services.ollama_service import generate_challenge_hints
 from app.services.bkt_service import calculate_challenge_confidence_mastered
+from app.services.speech_sdk_service import synthesize_speech
+from app.services.pronunciation_assessment_service import pronunciation_assessment
 
 router = APIRouter()
 
@@ -21,3 +23,7 @@ async def get_confidence_mastered(confidence_mastered: str, isCorrect: str):
 
     new_confidence_mastered = calculate_challenge_confidence_mastered(confidence_mastered, isCorrect)
     return new_confidence_mastered
+
+@router.get("/get-audio-base64/{text}/{target_language}", response_model=str)
+async def get_pronun_audio(text: str, target_language: str):
+    return synthesize_speech(text, target_language)

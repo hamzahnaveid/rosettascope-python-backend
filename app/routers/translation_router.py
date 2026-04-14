@@ -10,11 +10,11 @@ router = APIRouter()
 async def translate_and_speak(req: TranslationRequest):
     translated_word = await translate_word(req.word, req.targetLanguage)
 
-    if (req.confidenceMastered > 0.33 and req.confidenceMastered <= 0.74):
+    if (req.confidenceMastered > 0.24 and req.confidenceMastered <= 0.76):
         ollama_response = generate_phrase(translated_word, req.targetLanguage)
         generated_phrase = ollama_response.get("response")
         translation = generated_phrase
-    elif (req.confidenceMastered > 0.74):
+    elif (req.confidenceMastered > 0.76):
         ollama_response = generate_sentence(translated_word, req.targetLanguage)
         generated_phrase = ollama_response.get("response")
         translation = generated_phrase
