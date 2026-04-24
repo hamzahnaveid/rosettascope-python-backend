@@ -24,5 +24,6 @@ async def grade_speech(req: GradingRequest):
     return {
         "result": result,
         "feedback": feedback,
-        "new_confidence_mastered": new_confidence_mastered
+        "new_confidence_mastered": new_confidence_mastered,
+        "is_correct": str(isCorrect)
     }       

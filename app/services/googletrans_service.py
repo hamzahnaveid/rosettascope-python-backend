@@ -8,7 +8,7 @@ language_codes = {
     'vi-VN': 'vi',
     'zh-CN': 'zh-cn',
     'ar-SA': 'ar',
-    'hi-HI': 'hi',
+    'hi-IN': 'hi',
     'ko-KR': 'ko',
     'ja-JP': 'ja',
     'ru-RU': 'ru',

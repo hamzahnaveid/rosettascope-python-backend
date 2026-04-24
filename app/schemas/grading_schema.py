@@ -10,3 +10,4 @@ class GradingResponse(BaseModel):
     result: str
     feedback: str
     new_confidence_mastered: float
+    is_correct: str
