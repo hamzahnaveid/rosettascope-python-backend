@@ -1,5 +1,59 @@
 import ollama
 
+def generate_beginner_term(translated_word: str, target_language):
+    response = ollama.chat(
+        model="llama3.1:8b",
+        messages=[
+            {
+                "role": "system",
+                "content": """
+You output only the requested phrase.
+Never explain anything.
+Never add notes.
+Never add labels.
+Never add quotation marks.
+Never add punctuation.
+Never add extra text before or after the phrase.
+"""
+            },
+            {
+                "role": "user",
+                "content": f"""
+Language code: {target_language}
+
+Required word:
+{translated_word}
+
+Create ONE useful beginner-level phrase.
+
+Rules:
+- Maximum 2 words
+- Minimum 1 word
+- Must include "{translated_word}" exactly
+- Prefer adjective + noun, article + noun, possessive + noun, or simple modifier + word
+- If the given word is already best alone, return only the word
+- Natural everyday language
+- Not a full sentence
+- No punctuation
+- Output only the phrase
+
+Examples:
+big house
+my book
+red apple
+"""
+            }
+        ],
+        options={
+            "temperature": 0.3,
+            "num_predict": 6,
+            "stop": ["\n", ".", ":"]
+        }
+    )
+
+    return response["message"]["content"].strip().split("\n")[0]
+    
+
 def generate_phrase(translated_word: str, target_language):
     response = ollama.chat(model="llama3.1:8b", messages=[{
         "role": "user",
@@ -198,6 +252,39 @@ Example:
 
 Words:
 {words}
+"""
+    }])
+    
+    return response["message"]["content"]
+
+def generate_fluff(listening_text: str, target_language: str, level: str):
+    response = ollama.chat(model="llama3.1:8b", messages=[{
+        "role": "user",
+        "content": f"""
+You are generating distractor words for a Duolingo-style listening exercise.
+
+The learner hears audio of a sentence.
+The correct chip words come from the sentence text below.
+
+Your task is to generate ONLY extra incorrect chip words.
+
+INPUTS:
+- listening_text: {listening_text}
+- target_language: {target_language}
+- level: {level}
+
+INSTRUCTIONS:
+1. Extract the correct words from listening_text mentally, but DO NOT output them.
+2. Generate 5 incorrect distractor words in {target_language}.
+3. Do NOT include any exact word already found in listening_text.
+4. Use vocabulary suitable for {level} learners.
+5. Prefer distractors that are:
+   - common words
+   - similar sounding to words in listening_text
+   - same word type
+   - plausible in context
+6. Avoid duplicates.
+7. Return ONLY a Python list of strings.
 """
     }])
     

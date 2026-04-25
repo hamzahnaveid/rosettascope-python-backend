@@ -3,7 +3,6 @@ from fastapi import APIRouter, Query
 from app.services.ollama_service import generate_challenge_hints
 from app.services.bkt_service import calculate_challenge_confidence_mastered
 from app.services.speech_sdk_service import synthesize_speech
-from app.services.pronunciation_assessment_service import pronunciation_assessment
 
 router = APIRouter()
 
